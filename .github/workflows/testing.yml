@@ -24,4 +24,6 @@ jobs:
           flask db upgrade
 
       - name: Make test
-        run: make test
+        run: |
+          source venv/bin/activate
+          make test
