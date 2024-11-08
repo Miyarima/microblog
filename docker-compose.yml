@@ -1,0 +1,45 @@
+networks:
+  http3:
+services:
+  db:
+    image: "mysql:5.7"
+    restart: always
+    container_name: mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: yes
+      MYSQL_DATABASE: microblog
+      MYSQL_USER: microblog
+      MYSQL_PASSWORD: 123
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - http3
+
+  microblog:
+    container_name: microblog
+    image: miyarima/microblog:1.0.0-prod
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - 8000:5000
+    environment:
+      SECRET_KEY: "my_precious"
+      MYSQL_DATABASE: "microblog"
+      DATABASE_URL: "mysql+pymysql://microblog:123@db/microblog"
+    networks:
+      - http3
+
+  test:
+    container_name: test
+    image: miyarima/microblog:1.0.0-test
+    # environment:
+    #   SECRET_KEY: "my_precious"
+    #   MYSQL_DATABASE: "microblog"
+    #   DATABASE_URL: "mysql+pymysql://microblog:123@db/microblog"
+    volumes:
+      - ./app:/home/microblog/app
+      - ./tests:/home/microblog/tests
