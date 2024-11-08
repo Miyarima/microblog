@@ -13,10 +13,10 @@ jobs:
         uses: actions/setup-python@v4
 
       - name: Install dependencies
-        run:
-          - python3 -m venv venv
-          - source venv/bin/activate
-          - make install-test
+        run: |
+          python3 -m venv venv
+          source venv/bin/activate
+          make install-test
 
       - name: Flask db upgrade
         run: flask db upgrade
