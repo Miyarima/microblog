@@ -16,14 +16,6 @@ jobs:
         run: |
           make install-test
 
-      # python3 -m venv venv
-      # source venv/bin/activate
-      # - name: Flask db upgrade
-      #   run: |
-      #     source venv/bin/activate
-      #     flask db upgrade
-      # source venv/bin/activate
-
       - name: Make test
         run: |
           make test
