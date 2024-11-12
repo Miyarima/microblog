@@ -1,9 +1,6 @@
 name: Unit Tests
 
-on:
-  push:
-  pull_request:
-    branches: ["master"]yea
+on: [push, pull_request]
 
 jobs:
   test:
@@ -25,7 +22,7 @@ jobs:
       #   run: |
       #     source venv/bin/activate
       #     flask db upgrade
-          # source venv/bin/activate
+      # source venv/bin/activate
 
       - name: Make test
         run: |
