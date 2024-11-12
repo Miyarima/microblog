@@ -23,10 +23,18 @@ jobs:
           version=${GITHUB_REF#refs/tags/}
           echo "version=$version" >> $GITHUB_ENV
 
-      - name: Build Docker image
+      - name: Build Docker Prod image
         run: |
-          docker build -t miyarima/microblog:${{ env.version }} .
+          docker build -t miyarima/microblog:${{ env.version }}-prod microblog:prod -f docker/Dockerfile_prod .
+          docker tag microblog:${{ env.version }}-prod miyarima/microblog:${{ env.version }}-prod
 
-      - name: Push Docker image
+      - name: Push Docker Prod image
+        run: docker push miyarima/microblog:${{ env.version }}-prod
+
+      - name: Build Docker Test image
         run: |
-          docker push miyarima/microblog:${{ env.version }}
+          docker build -t miyarima/microblog:${{ env.version }}-test microblog:test -f docker/Dockerfile_test .
+          docker tag microblog:${{ env.version }}-test miyarima/microblog:${{ env.version }}-test
+
+      - name: Push Docker Test image
+        run: docker push miyarima/microblog:${{ env.version }}-test
