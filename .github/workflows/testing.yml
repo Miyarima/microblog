@@ -1,6 +1,9 @@
 name: Unit Tests
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+    branches: ["master"]yea
 
 jobs:
   test:
@@ -14,16 +17,16 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python3 -m venv venv
-          source venv/bin/activate
           make install-test
 
-      - name: Flask db upgrade
-        run: |
-          source venv/bin/activate
-          flask db upgrade
+      # python3 -m venv venv
+      # source venv/bin/activate
+      # - name: Flask db upgrade
+      #   run: |
+      #     source venv/bin/activate
+      #     flask db upgrade
+          # source venv/bin/activate
 
       - name: Make test
         run: |
-          source venv/bin/activate
           make test
