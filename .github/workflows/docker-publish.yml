@@ -3,6 +3,12 @@ name: CD Docker Publish
 on: [release]
 
 jobs:
+  start:
+    runs-on: ubuntu-latest
+    steps:
+      - name: No-op Start
+        run: echo "Starting workflow"
+
   deploy:
     runs-on: ubuntu-latest
     needs: [Unit Tests]
