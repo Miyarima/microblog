@@ -25,7 +25,7 @@ jobs:
 
       - name: Build Docker Prod image
         run: |
-          docker build -t miyarima/microblog:${{ env.version }}-prod microblog:prod -f docker/Dockerfile_prod .
+          docker build -t microblog:${{ env.version }}-prod microblog:prod -f docker/Dockerfile_prod .
           docker tag microblog:${{ env.version }}-prod miyarima/microblog:${{ env.version }}-prod
 
       - name: Push Docker Prod image
@@ -33,7 +33,7 @@ jobs:
 
       - name: Build Docker Test image
         run: |
-          docker build -t miyarima/microblog:${{ env.version }}-test microblog:test -f docker/Dockerfile_test .
+          docker build -t microblog:${{ env.version }}-test microblog:test -f docker/Dockerfile_test .
           docker tag microblog:${{ env.version }}-test miyarima/microblog:${{ env.version }}-test
 
       - name: Push Docker Test image
