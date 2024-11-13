@@ -3,6 +3,8 @@ app.db
 aws_keys.yml
 logs/
 .pylint.d
+.vscode
+.idea
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,0 +1,40 @@
+name: CD Docker Publish
+
+on: [release]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [Unit Tests]
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract version from release tag
+        id: extract_version
+        run: |
+          version=${GITHUB_REF#refs/tags/}
+          echo "version=$version" >> $GITHUB_ENV
+
+      - name: Build Docker Prod image
+        run: |
+          docker build -t miyarima/microblog:${{ env.version }}-prod microblog:prod -f docker/Dockerfile_prod .
+          docker tag microblog:${{ env.version }}-prod miyarima/microblog:${{ env.version }}-prod
+
+      - name: Push Docker Prod image
+        run: docker push miyarima/microblog:${{ env.version }}-prod
+
+      - name: Build Docker Test image
+        run: |
+          docker build -t miyarima/microblog:${{ env.version }}-test microblog:test -f docker/Dockerfile_test .
+          docker tag microblog:${{ env.version }}-test miyarima/microblog:${{ env.version }}-test
+
+      - name: Push Docker Test image
+        run: docker push miyarima/microblog:${{ env.version }}-test
