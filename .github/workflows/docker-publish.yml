@@ -22,7 +22,7 @@ jobs:
 
       - name: Build Docker Prod image
         run: |
-          docker build -t microblog:${{ github.event.release.tag_name }}-prod microblog:prod -f docker/Dockerfile_prod .
+          docker build --no-cache -t microblog:${{ github.event.release.tag_name }}-prod -t microblog:prod -f docker/Dockerfile_prod .
           docker tag microblog:${{ github.event.release.tag_name }}-prod miyarima/microblog:${{ github.event.release.tag_name }}-prod
 
       - name: Push Docker Prod image
@@ -30,7 +30,7 @@ jobs:
 
       - name: Build Docker Test image
         run: |
-          docker build -t microblog:${{ github.event.release.tag_name }}-test microblog:test -f docker/Dockerfile_test .
+          docker build --no-cache -t microblog:${{ github.event.release.tag_name }}-test -t microblog:test -f docker/Dockerfile_test .
           docker tag microblog:${{ github.event.release.tag_name }}-test miyarima/microblog:${{ github.event.release.tag_name }}-test
 
       - name: Push Docker Test image
