@@ -17,10 +17,12 @@ services:
       retries: 3
     networks:
       - http3
+    volumes:
+      - ./db/mysql-data:/var/lib/mysql
 
   microblog:
     container_name: microblog
-    image: miyarima/microblog:1.0.0-prod
+    image: miyarima/microblog:11.0.0-prod
     depends_on:
       db:
         condition: service_healthy
@@ -35,7 +37,7 @@ services:
 
   test:
     container_name: test
-    image: miyarima/microblog:1.0.0-test
+    image: miyarima/microblog:11.0.0-test
     # environment:
     #   SECRET_KEY: "my_precious"
     #   MYSQL_DATABASE: "microblog"
