@@ -21,21 +21,17 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build Docker Prod image
-        uses: docker/build-push-action@v6
-        env:
-              DOCKER_CONTENT_TRUST: 1
-        with:
-          context: .
-          file: ./docker/Dockerfile_prod
-          push: true
-          tags: miyarima/microblog:${{ github.event.release.tag_name }}-prod
+        run: |
+          docker build --no-cache -t microblog:${{ github.event.release.tag_name }}-prod -t microblog:prod -f docker/Dockerfile_prod .
+          docker tag microblog:${{ github.event.release.tag_name }}-prod miyarima/microblog:${{ github.event.release.tag_name }}-prod
+      
+      - name: Push Docker Prod image
+        run: docker push miyarima/microblog:${{ github.event.release.tag_name }}-prod
 
       - name: Build Docker Test image
-        uses: docker/build-push-action@v6
-        env:
-              DOCKER_CONTENT_TRUST: 1
-        with:
-          context: .
-          file: ./docker/Dockerfile_test
-          push: true
-          tags: miyarima/microblog:${{ github.event.release.tag_name }}-test
+        run: |
+          docker build --no-cache -t microblog:${{ github.event.release.tag_name }}-test -t microblog:test -f docker/Dockerfile_test .
+          docker tag microblog:${{ github.event.release.tag_name }}-test miyarima/microblog:${{ github.event.release.tag_name }}-test
+      
+      - name: Push Docker Test image
+        run: docker push miyarima/microblog:${{ github.event.release.tag_name }}-test
