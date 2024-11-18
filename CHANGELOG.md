@@ -21,3 +21,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - v11.0 Dockerfile for prod and testing
 - v11.0 Docker compose file for running application and tests
 - v11.0 Template for structuring git commits
+- v11.0 Workflow for running test and publishing docker containers
+- v11.0 Following other users in the application, with corresponing test for this feature
