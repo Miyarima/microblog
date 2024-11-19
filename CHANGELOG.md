@@ -16,13 +16,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased]
+## [Unreleased] - 2024-11-19
 
 ### Added
 
-- v11.1.0 Two appservers to distubute load between
-- v11.1.0 A subdomain for each appserver
-- v11.1.0 Credentials for creating servers (VM) with anisible
+- Two appservers to distubute load between
+- A subdomain for each appserver
+- Credentials for creating servers (VM) with anisible
+- Ansible playbook for running mysql in docker container
+- Ansible playbook for appserver(s) in docker container
+
+### Fixed
+
+- 100+ lint issues with yaml files
 
 ## [11.0.0] - 2024-11-15
 
