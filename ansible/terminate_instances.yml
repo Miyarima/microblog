@@ -1,40 +1,34 @@
 # Gather EC2 facts from remote instance
 ---
--   hosts: local
-    connection: local
-    gather_facts: False
-    collections:
-        - azure.azcollection
-    roles:
-        - gather_instances
+- hosts: local
+  connection: local
+  gather_facts: false
+  collections:
+    - azure.azcollection
+  roles:
+    - gather_instances
 
+- name: remove instance
+  hosts: devops
+  connection: local
+  gather_facts: false
+  collections:
+    - azure.azcollection
+  roles:
+    - terminate_instances
 
+- name: remove networks
+  hosts: local
+  gather_facts: false
+  tasks:
+    - include_tasks: roles/terminate_instances/tasks/vnet.yml
+  collections:
+    - azure.azcollection
 
--   name: remove instance
-    hosts: devops
-    connection: local
-    gather_facts: False
-    collections:
-        - azure.azcollection
-    roles:
-        - terminate_instances
-
-
-
--   name: remove networks
-    hosts: local
-    gather_facts: False
-    tasks:
-        -   include_tasks: roles/terminate_instances/tasks/vnet.yml
-    collections:
-        - azure.azcollection
-
-
-
--   name: remove security groups
-    hosts: local
-    gather_facts: False
-    vars:
-        state: absent
-    roles: 
-        - security_groups
+- name: remove security groups
+  hosts: local
+  gather_facts: false
+  vars:
+    state: absent
+  roles:
+    - security_groups
