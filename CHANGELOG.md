@@ -18,8 +18,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- v11.0 Dockerfile for prod and testing
-- v11.0 Docker compose file for running application and tests
-- v11.0 Template for structuring git commits
-- v11.0 Workflow for running test and publishing docker containers
-- v11.0 Following other users in the application, with corresponing test for this feature
+- v11.0.0 Dockerfile for prod and testing
+- v11.0.0 Docker compose file for running application and tests
+- v11.0.0 Template for structuring git commits
+- v11.0.0 Workflow for running test and publishing docker containers
+- v11.0.0 Following other users in the application, with corresponing test for this feature
+
+### Added
+
+- v11.1.0 Two appservers to distubute load between
+- v11.1.0 A subdomain for each appserver
+- v11.1.0 Credentials for creating servers (VM) with anisible
