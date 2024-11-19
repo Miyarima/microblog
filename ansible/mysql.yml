@@ -5,4 +5,17 @@
   become_method: sudo
   roles:
     - docker_install
-    - docker_mysql
+  task:
+    - name: Start mysql container
+      docker_container:
+        name: mysql
+        image: mysql:5.7
+        restart_policy: always
+        env:
+          MYSQL_PASSWORD: 123
+          MYSQL_ROOT_PASSWORD: 123
+          MYSQL_USER: microblog
+          MYSQL_DATABASE: microblog
+        volumes:
+          - ./db/mysql-data:/var/lib/mysql
+        published_ports: 3306:3306
