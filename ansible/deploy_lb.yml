@@ -1,0 +1,7 @@
+---
+- hosts: loadbalancer
+  remote_user: "{{ server_user }}"
+  become: true
+  become_method: sudo
+  roles:
+    - deploy_lb

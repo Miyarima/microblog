@@ -1,3 +1,4 @@
 ---
 packages:
-  - name: docker
+  - python3-pip
+  - locales-all

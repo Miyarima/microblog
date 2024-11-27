@@ -1,6 +1,15 @@
 ---
-- name: Install Docker
+- name: Installing Docker.io
   apt:
-    name: "{{ item.name }}"
-    update_cache: true
-  with_items: "{{ packages }}"
+    name: docker.io
+    state: latest
+
+- name: Installing pip3
+  apt:
+    name: python3-pip
+    state: present
+
+- name: Installing Docker with pip3
+  pip:
+    name: docker
+    state: present
