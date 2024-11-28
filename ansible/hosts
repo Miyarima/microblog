@@ -1,2 +1,6 @@
 [local]
 localhost ansible_connection=local
+
+[hosts_appserver]
+appserver1.miyarima.tech
+appserver2.miyarima.tech
