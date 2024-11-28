@@ -122,3 +122,11 @@ def unfollow(username):
     db.session.commit()
     flash(f'You are not following {username}.')
     return redirect(url_for('main.user', username=username))
+
+@bp.route('/version')
+def version():
+    """
+    Preview the current version of microblog.
+    """
+    version = current_app.config['VERSION']
+    return render_template('version.html', version=version)
