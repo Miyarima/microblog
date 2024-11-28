@@ -16,6 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [11.1.1] - 2024-11-28
+
+### Fixed
+
+- Wrong file name for version page
+
 ## [11.1.0] - 2024-11-28
 
 ### Added
