@@ -30,4 +30,6 @@ jobs:
           sudo apt-get install ansible -y
 
       - name: Run ansible playbook
-        run: ansible-playbook cd_appserver.yml
+        run: |
+          cd ansible
+          ansible-playbook cd_appserver.yml
