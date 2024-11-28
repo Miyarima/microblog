@@ -8,7 +8,7 @@ from app import db
 from app.main.forms import EditProfileForm, PostForm
 from app.models import User, Post
 from app.main import bp
-
+import os
 
 
 @bp.before_request
@@ -128,5 +128,5 @@ def version():
     """
     Preview the current version of microblog.
     """
-    current_version = current_app.config['app_version']
-    return render_template('version.html', version=current_version)
+    app_version = os.environ.get("VERSION") or "No version found"
+    return render_template('version.html', version=app_version)
