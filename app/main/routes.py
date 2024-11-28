@@ -128,5 +128,5 @@ def version():
     """
     Preview the current version of microblog.
     """
-    current_version = current_app.config['VERSION']
+    current_version = current_app.config['app_version']
     return render_template('version.html', version=current_version)
