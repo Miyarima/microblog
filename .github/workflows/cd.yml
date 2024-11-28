@@ -30,6 +30,8 @@ jobs:
           sudo apt-get install ansible -y
 
       - name: Run ansible playbook
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: False
         run: |
           cd ansible
           ansible-playbook cd_appserver.yml

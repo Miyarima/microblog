@@ -7,34 +7,42 @@
   roles:
     - docker_install
   tasks:
-    - name: Fetch tags from GitHub API
+    - name: Pull most recent image
+      docker_image:
+        name: "miyarima/microblog:{{ github_tag }}-prod"
+        source: pull
+
+    - name: Get tags
       uri:
         url: "https://api.github.com/repos/miyarima/microblog/tags"
         return_content: true
       register: tags
 
-    - name: Parse the latest tag from the API response
+    - name: Set latest tag
       set_fact:
         version: "{{ tags.json[0].name }}"
 
-    - name: Latest version of docker image
-      debug:
-        msg: "The latest version is {{ version }}"
-
-    - name: Pull docker image
-      docker_image:
-        name: miyarima/microblog:"{{ version }}"-prod
-
-    - name: Start microblog container
+    - name: Restart Microblog
       docker_container:
         name: microblog
-        image: miyarima/microblog:{{ version }}-prod
-        restart_policy: always
+        image: "miyarima/microblog:{{ github_tag }}-prod"
         env:
           SECRET_KEY: "my_precious"
-          MYSQL_DATABASE: "microblog"
-          DATABASE_URL: "mysql+pymysql://microblog:123@{{ groups['database'][0] }}:3306/microblog"
+          DATABASE_URL: "mysql+pymysql://microblog:microblog@{{ groups['database'][0] }}:3306/microblog"
           VERSION: "{{ version }}"
         ports: 8000:5000
+        restart_policy: always
         published_ports: 8000:5000
         state: started
+
+    - name: Application start delay
+      wait_for:
+        port: 8000
+        delay: 10
+
+    - name: Verify that website is up
+      uri:
+        url: "http://{{ inventory_hostname }}:8000/"
+        return_content: yes
+        status_code: 200
+      register: result
