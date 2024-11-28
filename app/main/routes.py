@@ -1,6 +1,7 @@
 """
 Contains routes for main purpose of app
 """
+import os
 from datetime import datetime
 from flask import render_template, flash, redirect, url_for, request, current_app
 from flask_login import current_user, login_required
@@ -8,7 +9,6 @@ from app import db
 from app.main.forms import EditProfileForm, PostForm
 from app.models import User, Post
 from app.main import bp
-
 
 
 @bp.before_request
@@ -128,5 +128,5 @@ def version():
     """
     Preview the current version of microblog.
     """
-    current_version = current_app.config['app_version']
-    return render_template('version.html', version=current_version)
+    app_version = os.environ.get("VERSION") or "No version found"
+    return render_template('version.html', version=app_version)
