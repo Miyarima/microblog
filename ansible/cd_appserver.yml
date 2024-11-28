@@ -7,11 +7,6 @@
   roles:
     - docker_install
   tasks:
-    - name: Pull most recent image
-      docker_image:
-        name: "miyarima/microblog:{{ github_tag }}-prod"
-        source: pull
-
     - name: Get tags
       uri:
         url: "https://api.github.com/repos/miyarima/microblog/tags"
@@ -22,10 +17,15 @@
       set_fact:
         version: "{{ tags.json[0].name }}"
 
+    - name: Pull most recent image
+      docker_image:
+        name: "miyarima/microblog:{{ version }}-prod"
+        source: pull
+
     - name: Restart Microblog
       docker_container:
         name: microblog
-        image: "miyarima/microblog:{{ github_tag }}-prod"
+        image: "miyarima/microblog:{{ version }}-prod"
         env:
           SECRET_KEY: "my_precious"
           DATABASE_URL: "mysql+pymysql://microblog:123g@{{ groups['database'][0] }}:3306/microblog"
