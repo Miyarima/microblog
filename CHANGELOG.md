@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased] - 2024-11-19
+## [11.1.0] - 2024-11-28
 
 ### Added
 
@@ -24,7 +24,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A subdomain for each appserver
 - Credentials for creating servers (VM) with anisible
 - Ansible playbook for running mysql in docker container
-- Ansible playbook for appserver(s) in docker container
+- Ansible playbook for running appserver(s) in docker container
+- Ansible playbook for running a load balancer with nginx
+- A new route in microblog to preview current version
 
 ### Fixed
 
