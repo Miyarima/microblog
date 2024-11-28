@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ansible playbook for running appserver(s) in docker container
 - Ansible playbook for running a load balancer with nginx
 - A new route in microblog to preview current version
+- A plethora of small fixes
 
 ### Fixed
 
