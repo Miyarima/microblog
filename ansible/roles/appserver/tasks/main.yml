@@ -1,0 +1,27 @@
+---
+- name: Fetch tags from GitHub API
+  uri:
+    url: "https://api.github.com/repos/miyarima/microblog/tags"
+    return_content: true
+  register: tags
+
+- name: Parse the latest tag from the API response
+  set_fact:
+    version: "{{ tags.json[0].name }}"
+
+- name: Latest version of docker image
+  debug:
+    msg: "The latest version is {{ version }}"
+
+- name: Start microblog container
+  docker_container:
+    name: microblog
+    image: miyarima/microblog:{{ version }}-prod
+    restart_policy: always
+    env:
+      SECRET_KEY: "my_precious"
+      MYSQL_DATABASE: "microblog"
+      DATABASE_URL: "mysql+pymysql://microblog:123@{{ groups['database'][0] }}:3306/microblog"
+      VERSION: "{{ version }}"
+    ports: 8000:5000
+    published_ports: 8000:5000

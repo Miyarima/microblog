@@ -1,0 +1,15 @@
+---
+- name: Start mysql container
+  docker_container:
+    name: mysql
+    image: mysql:5.7
+    env:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: "microblog"
+      MYSQL_USER: "microblog"
+      MYSQL_PASSWORD: "123"
+      MYSQL_ROOT_PASSWORD: "123"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    restart_policy: always
+    published_ports: "3306:3306"

@@ -1,9 +1,9 @@
 # Gather facts from remote instance and set as hosts
 ---
--   hosts: local
-    connection: local
-    gather_facts: False
-    collections:
-        - azure.azcollection
-    roles:
-        - gather_instances
+- hosts: local
+  connection: local
+  gather_facts: false
+  collections:
+    - azure.azcollection
+  roles:
+    - gather_instances

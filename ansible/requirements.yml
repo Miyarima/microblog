@@ -1,4 +1,4 @@
 ---
 collections:
-- name: azure.azcollection
-  version: 1.14.0
+  - name: azure.azcollection
+    version: 1.14.0
