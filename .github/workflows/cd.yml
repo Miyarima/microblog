@@ -26,7 +26,8 @@ jobs:
 
       - name: Install Ansible
         run: |
-          apt-get install ansible -y
+          sudo apt-get update
+          sudo apt-get install ansible -y
 
       - name: Run ansible playbook
         run: ansible-playbook cd_appserver.yml
