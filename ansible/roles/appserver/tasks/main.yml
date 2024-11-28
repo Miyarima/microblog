@@ -13,6 +13,11 @@
   debug:
     msg: "The latest version is {{ version }}"
 
+- name: Remove existing container if present
+  docker_container:
+    name: microblog
+    state: absent
+
 - name: Start microblog container
   docker_container:
     name: microblog

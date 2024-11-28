@@ -22,6 +22,11 @@
         name: "miyarima/microblog:{{ version }}-prod"
         source: pull
 
+    - name: Remove existing container if present
+      docker_container:
+        name: microblog
+        state: absent
+
     - name: Restart Microblog
       docker_container:
         name: microblog
