@@ -5,6 +5,7 @@ on: [release]
 jobs:
   docker-publish:
     uses: ./.github/workflows/docker-publish.yml
+    secrets: inherit
 
   update:
     runs-on: ubuntu-latest
