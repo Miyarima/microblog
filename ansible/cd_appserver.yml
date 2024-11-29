@@ -21,7 +21,7 @@
       debug:
         msg: "The latest version is {{ version }}"
 
-    - name: Pull most recent image
+    - name: Pull the latest version of microblog
       docker_image:
         name: "miyarima/microblog:{{ version }}-prod"
         source: pull
@@ -31,7 +31,7 @@
         name: microblog
         state: absent
 
-    - name: Restart Microblog
+    - name: Restart the microblog container
       docker_container:
         name: microblog
         image: "miyarima/microblog:{{ version }}-prod"
@@ -44,12 +44,12 @@
         published_ports: 8000:5000
         state: started
 
-    - name: Application start delay
+    - name: Delayed start for application
       wait_for:
         port: 8000
         delay: 10
 
-    - name: Verify that website is up
+    - name: Check status of website
       uri:
         url: "http://{{ inventory_hostname }}:8000/"
         return_content: yes
