@@ -38,7 +38,7 @@
         env:
           SECRET_KEY: "my_precious"
           MYSQL_DATABASE: "microblog"
-          DATABASE_URL: "mysql+pymysql://microblog:123g@{{ groups['database'][0] }}:3306/microblog"
+          DATABASE_URL: "mysql+pymysql://microblog:123@{{ groups['database'][0] }}:3306/microblog"
           VERSION: "{{ version }}"
         ports: 8000:5000
         restart_policy: always
