@@ -16,11 +16,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [11.2.3] - 2024-11-28
+
+### Added
+
+- A recod for the database
+- A new playbook for creating appserver(s) in sequence with rolling release
+
 ## [11.1.2] - 2024-11-28
 
 ### Fixed
 
 - Wrong name on version variable
+- a lot of bugs
 
 ## [11.1.1] - 2024-11-28
 
