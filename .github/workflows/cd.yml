@@ -34,4 +34,4 @@ jobs:
           ANSIBLE_HOST_KEY_CHECKING: False
         run: |
           cd ansible
-          ansible-playbook cd_appserver.yml
+          ansible-playbook -i hosts cd_appserver.yml
