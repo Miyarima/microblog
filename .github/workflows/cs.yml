@@ -30,7 +30,7 @@ jobs:
       - name: Install Dockle
         run: |
           wget https://github.com/goodwithtech/dockle/releases/download/v0.4.14/dockle_0.4.14_Linux-64bit.tar.gz
-          tar xzvf dockle_0.4.13_Linux-64bit.tar.gz
+          tar xzvf dockle_0.4.14_Linux-64bit.tar.gz
           sudo mv dockle /usr/local/bin/
 
       - name: Run Bandit
