@@ -22,10 +22,14 @@ jobs:
 
       - name: Install Trivy
         run: |
+<<<<<<< HEAD
           wget https://github.com/aquasecurity/trivy/releases/download/v0.57.1/trivy_0.57.1_Linux-64bit.tar.gz
           tar zxvf trivy_0.57.1_Linux-64bit.tar.gz
           sudo mv trivy /usr/local/bin/
           rm trivy_0.57.1_Linux-64bit.tar.gz
+=======
+          sudo snap install trivy
+>>>>>>> 8142e71fb045287925b84e5c3a3bd6dea0224a5d
 
       - name: Install Dockle
         run: |

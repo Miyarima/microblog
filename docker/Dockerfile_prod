@@ -21,6 +21,7 @@ EOF
 ENV FLASK_APP microblog.py
 
 RUN <<-EOF
+    apk upgrade --no-cache
     chmod +x boot.sh
     chown -R microblog:microblog ./
 EOF
@@ -29,6 +30,8 @@ EOF
 # RUN chown -R microblog:microblog ./
 
 USER microblog
+
+HEALTHCHECK --interval=60s --timeout=10s --start-period=10s --retries=3 CMD curl --fail http://localhost:5000/health || exit 1
 
 EXPOSE 5000
 ENTRYPOINT ["./boot.sh"]

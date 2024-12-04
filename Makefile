@@ -163,6 +163,29 @@ test-html: exec-tests
 
 
 
+## target: bandit-test                    - Run bandit test on app
+.PHONY: bandit-test
+bandit-test:
+	bandit -r app
+
+
+
+# target: trivy-test				  - Run trivy tests on production docker image
+.PHONY: trivy-test
+trivy-test:
+	docker build -f docker/Dockerfile_prod -t microblog:$(TAG) .
+	trivy image microblog:$(TAG) --scanners vuln,secret,misconfig --ignorefile .trivy
+	trivy fs --scanners vuln,secret,config --skip-dirs "./venv" ./ --ignorefile .trivy
+
+
+# target; dockle-test				  - Run dockle tests on producktion docker image
+.PHONY: dockle-test
+dockle-test:
+	docker build -f docker/Dockerfile_prod -t microblog:$(TAG) .
+	dockle --ignore DKL-LI-003 microblog:$(TAG)
+
+
+
 ## target: clean-py                     - Remove generated python files
 .PHONY: clean-py
 clean-py:
