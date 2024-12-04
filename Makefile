@@ -173,16 +173,16 @@ bandit-test:
 # target: trivy-test				  - Run trivy tests on production docker image
 .PHONY: trivy-test
 trivy-test:
-	docker build -f docker/Dockerfile_prod -t microblog:$(TAG) .
-	trivy image microblog:$(TAG) --scanners vuln,secret,misconfig --ignorefile .trivy
+	docker build -f docker/Dockerfile_prod -t microblog:$(RELEASE) .
+	trivy image microblog:$(RELEASE) --scanners vuln,secret,misconfig --ignorefile .trivy
 	trivy fs --scanners vuln,secret,config --skip-dirs "./venv" ./ --ignorefile .trivy
 
 
 # target; dockle-test				  - Run dockle tests on producktion docker image
 .PHONY: dockle-test
 dockle-test:
-	docker build -f docker/Dockerfile_prod -t microblog:$(TAG) .
-	dockle --ignore DKL-LI-003 microblog:$(TAG)
+	docker build -f docker/Dockerfile_prod -t microblog:$(RELEASE) .
+	dockle --ignore DKL-LI-003 microblog:$(RELEASE)
 
 
 
