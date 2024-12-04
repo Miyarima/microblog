@@ -22,17 +22,16 @@ jobs:
 
       - name: Install Trivy
         run: |
-          wget https://github.com/aquasecurity/trivy/releases/download/v0.57.1/trivy_0.57.1_Linux-64bit.tar.gz
-          tar zxvf trivy_0.57.1_Linux-64bit.tar.gz
+          wget https://github.com/aquasecurity/trivy/releases/download/v0.58/trivy_0.58_Linux-64bit.tar.gz
+          tar zxvf trivy_0.58_Linux-64bit.tar.gz
           sudo mv trivy /usr/local/bin/
-          rm trivy_0.57.1_Linux-64bit.tar.gz
+          rm trivy_0.58_Linux-64bit.tar.gz
 
       - name: Install Dockle
         run: |
-          VERSION=$(curl -s https://api.github.com/repos/goodwithtech/dockle/releases/latest | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
-          curl -L -o dockle.deb "https://github.com/goodwithtech/dockle/releases/download/v${VERSION}/dockle_${VERSION}_Linux-64bit.deb"
-          sudo dpkg -i dockle.deb
-          rm dockle.deb
+          wget https://github.com/goodwithtech/dockle/releases/download/v0.4.14/dockle_0.4.14_Linux-64bit.tar.gz
+          tar xzvf dockle_0.4.13_Linux-64bit.tar.gz
+          sudo mv dockle /usr/local/bin/
 
       - name: Run Bandit
         run: make bandit-test
