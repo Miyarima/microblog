@@ -6,9 +6,12 @@ jobs:
   test:
     uses: ./.github/workflows/testing.yml
 
+  cs:
+    uses: ./.github/workflows/cs.yml
+
   deploy:
     runs-on: ubuntu-latest
-    needs: [test]
+    needs: [test, cs]
 
     steps:
       - name: Check out code

@@ -84,3 +84,15 @@
     force: true
     remove: true
   # ignore_errors: yes
+
+- name: Add new sshd config file
+  remote_user: "{{ server_user }}"
+  copy:
+    src: files/sshd_config
+    dest: /etc/ssh/sshd_config
+
+- name: Restart ssh
+  remote_user: "{{ server_user }}"
+  service:
+    name: ssh
+    state: restarted
