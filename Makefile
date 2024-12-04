@@ -163,6 +163,13 @@ test-html: exec-tests
 
 
 
+## target: bandit-test                    - Run bandit test on app
+.PHONY: bandit-test
+bandit-test:
+	bandit -r app
+
+
+
 ## target: clean-py                     - Remove generated python files
 .PHONY: clean-py
 clean-py:
