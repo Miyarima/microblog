@@ -1,6 +1,6 @@
 name: Running bandit, trivy and dockle
 
-on: [push]
+on: [workflow_call]
 
 jobs:
   cs:
