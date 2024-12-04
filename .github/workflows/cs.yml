@@ -37,9 +37,9 @@ jobs:
         run: make bandit-test
 
       - name: Run Trivy
-        run: sudo make trivy-test TAG=${{ github.event.release.tag_name }}-prod
+        run: sudo make trivy-test RELEASE=${{ github.event.release.tag_name }}-prod
 
       - name: Run Dockle
         env:
           DOCKER_CONTENT_TRUST: 1
-        run: make dockle-test TAG=${{ github.event.release.tag_name }}-prod
+        run: make dockle-test RELEASE=${{ github.event.release.tag_name }}-prod
