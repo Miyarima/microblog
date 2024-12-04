@@ -174,8 +174,8 @@ bandit-test:
 .PHONY: trivy-test
 trivy-test:
 	docker build -f docker/Dockerfile_prod -t microblog:$(TAG) .
-	trivy image microblog:$(TAG) --scanners vuln,secret,misconfig --ignorefile .trivyignore
-	trivy fs --scanners vuln,secret,config --skip-dirs "./venv" ./ --ignorefile .trivyignore
+	trivy image microblog:$(TAG) --scanners vuln,secret,misconfig --ignorefile .trivy
+	trivy fs --scanners vuln,secret,config --skip-dirs "./venv" ./ --ignorefile .trivy
 
 
 # target; dockle-test				  - Run dockle tests on producktion docker image
