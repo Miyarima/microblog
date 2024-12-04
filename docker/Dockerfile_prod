@@ -21,6 +21,7 @@ EOF
 ENV FLASK_APP microblog.py
 
 RUN <<-EOF
+    apk upgrade --no-cache
     chmod +x boot.sh
     chown -R microblog:microblog ./
 EOF
