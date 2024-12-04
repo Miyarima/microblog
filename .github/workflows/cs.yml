@@ -1,0 +1,41 @@
+name: Running bandit, trivy and dockle
+
+on: [push]
+
+jobs:
+  cs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install Bandit
+        run: |
+          sudo apt-get update
+          pip install bandit
+
+      - name: Install Trivy
+        run: |
+          sudo snap install trivy
+
+      - name: Install Dockle
+        run: |
+          VERSION=$(curl -s https://api.github.com/repos/goodwithtech/dockle/releases/latest | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+          curl -L -o dockle.deb "https://github.com/goodwithtech/dockle/releases/download/v${VERSION}/dockle_${VERSION}_Linux-64bit.deb"
+          sudo dpkg -i dockle.deb
+          rm dockle.deb
+
+      - name: Run Bandit
+        run: make bandit-test
+
+      - name: Run Trivy
+        run: make trivy-test VERSION=${{ github.event.release.tag_name }}-prod
+
+      - name: Run Dockle
+        run: make dockle-test VERSION=${{ github.event.release.tag_name }}-prod
