@@ -16,6 +16,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [11.3.0] - 2024-11-28
+
+### Added
+
+- Bandit, Trivy and Dockle for finding security vulnerabilities
+
+### Fixed
+
+- Security issues found by Bandit, Trivy and Dockle
+
+### Changed
+
+- Security groups to only allow trafic from each other on ports other than 22, 80 and 443
+- SSH configuration on all servers now based on Mozilla OpenSSH 6.7+
+
 ## [11.2.3] - 2024-11-28
 
 ### Added
