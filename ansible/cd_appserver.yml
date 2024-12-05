@@ -6,6 +6,7 @@
   serial: 1
   roles:
     - docker_install
+    - datadog
   tasks:
     - name: Fetch tags from GitHub API
       uri:

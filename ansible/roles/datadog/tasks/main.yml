@@ -1,0 +1,6 @@
+---
+- name: Install Datadog
+  become: true
+  shell: DD_API_KEY="{{ api_key }}" \
+    DD_SITE="{{ url }}" \
+    bash -c "$(curl -L https://install.datadoghq.com/scripts/install_script_agent7.sh)"
