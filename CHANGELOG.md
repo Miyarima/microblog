@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Bandit, Trivy and Dockle for finding security vulnerabilities
+- Technical study about [Datadog](https://www.datadoghq.com/)
 
 ### Fixed
 
