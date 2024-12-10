@@ -26,6 +26,7 @@
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-data:/prometheus
+      - ./rules.yml:/etc/prometheus/rules.yml
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
@@ -48,5 +49,19 @@
       - ./grafana.ini:/etc/grafana/grafana.ini
     ports:
       - "3000:3000"
+    networks:
+      - monitor
+
+- name: Start alert manager container
+  docker_container:
+    name: alter-manager
+    image: prom/alertmanager
+    restart: unless-stopped
+    volumes:
+      - "./alertmanager.yml:/config/alertmanager.yml"
+    command:
+      - "--config.file=/config/alertmanager.yml"
+    ports:
+      - "9093:9093"
     networks:
       - monitor
