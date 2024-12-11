@@ -16,6 +16,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleasd] - 2024-12-05
+
+### Added
+
+- Grafan, promethues and alert manager
+- New monitoring server with coresponding security group
+- Promethues env variable in testing.yml
+
+### Changed
+
+- Dockerfile_prod now supports promethues
+
 ## [11.3.0] - 2024-12-05
 
 ### Added

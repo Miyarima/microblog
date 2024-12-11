@@ -1,0 +1,59 @@
+---
+- name: Install packages
+  apt:
+    name: "{{ packages }}"
+    state: latest
+
+- name: Create docker network
+  docker_network:
+    name: monitor
+
+- name: Copy docker-compose file
+  copy:
+    src: docker-compose.yml
+    dest: docker-compose.yml
+
+- name: Copy prometheus configuration file (with template)
+  template:
+    src: files/prometheus.yml.j2
+    dest: prometheus.yml
+
+- name: Copy alertmanager configuration file
+  copy:
+    src: alertmanager.yml
+    dest: alertmanager.yml
+
+- name: Copy prometheus rules file
+  copy:
+    src: rules.yml
+    dest: rules.yml
+
+- name: Start node-exporter container
+  ansible.builtin.command:
+    cmd: docker-compose up -d node-exporter
+  become: true
+
+- name: Start prometheus container
+  ansible.builtin.command:
+    cmd: docker-compose up -d prometheus
+  become: true
+
+- name: Start grafana container
+  ansible.builtin.command:
+    cmd: docker-compose up -d grafana
+  become: true
+
+- name: Start alertmanager container
+  ansible.builtin.command:
+    cmd: docker-compose up -d alertmanager
+  become: true
+
+- name: Add datasource to grafana for prometheus
+  community.grafana.grafana_datasource:
+    name: prometheus
+    url: "http://0.0.0.0:3000"
+    ds_type: "prometheus"
+    ds_url: http://prometheus:9090
+    grafana_user: "admin"
+    grafana_password: "admin"
+    state: present

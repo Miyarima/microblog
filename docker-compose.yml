@@ -22,10 +22,24 @@ services:
 
   microblog:
     container_name: microblog
-    image: miyarima/microblog:11.0.0-prod
+    image: miyarima/microblog:11.4.0-prod
     depends_on:
       db:
         condition: service_healthy
+    ports:
+      - 8000:5000
+    environment:
+      SECRET_KEY: "my_precious"
+      MYSQL_DATABASE: "microblog"
+      DATABASE_URL: "mysql+pymysql://microblog:123@db/microblog"
+    networks:
+      - http3
+
+  microblog-test:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile_prod
+    container_name: microblog
     ports:
       - 8000:5000
     environment:
