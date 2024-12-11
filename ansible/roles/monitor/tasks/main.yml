@@ -38,6 +38,11 @@
     src: 1860_rev37.json
     dest: dashboard.json
 
+- name: Copy 14900 dashboard file
+  copy:
+    src: 14900_rev2.json
+    dest: nginx-dashboard.json
+
 - name: Start node-exporter container
   ansible.builtin.command:
     cmd: docker-compose up -d node-exporter
@@ -46,6 +51,11 @@
 - name: Start prometheus container
   ansible.builtin.command:
     cmd: docker-compose up -d prometheus
+  become: true
+
+- name: Stop grafana container
+  ansible.builtin.command:
+    cmd: docker-compose stop grafana
   become: true
 
 - name: Start grafana container
@@ -58,15 +68,15 @@
     cmd: docker-compose up -d alertmanager
   become: true
 
-# - name: Add datasource to grafana for prometheus
-#   community.grafana.grafana_datasource:
-#     name: prometheus
-#     url: http://0.0.0.0:3000
-#     ds_type: prometheus
-#     ds_url: http://prometheus:9090
-#     grafana_user: admin
-#     grafana_password: admin
-#     state: present
+- name: Add datasource to grafana for prometheus
+  community.grafana.grafana_datasource:
+    name: prometheus
+    url: http://0.0.0.0:3000
+    ds_type: prometheus
+    ds_url: http://prometheus:9090
+    grafana_user: admin
+    grafana_password: admin
+    state: present
 
 - name: Add 1860 dashboard to grafana
   community.grafana.grafana_dashboard:
@@ -74,5 +84,14 @@
     grafana_user: admin
     grafana_password: admin
     path: dashboard.json
+    overwrite: true
+    state: present
+
+- name: Add nginx dashboard to grafana
+  community.grafana.grafana_dashboard:
+    grafana_url: http://0.0.0.0:3000
+    grafana_user: admin
+    grafana_password: admin
+    path: nginx-dashboard.json
     overwrite: true
     state: present
