@@ -4,5 +4,6 @@
   become: true
   become_method: sudo
   roles:
+    - docker_install
     - deploy_lb
     - datadog

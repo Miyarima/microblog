@@ -28,6 +28,16 @@
     src: rules.yml
     dest: rules.yml
 
+- name: Copy grafana ini file
+  copy:
+    src: grafana.ini
+    dest: grafana.ini
+
+- name: Copy 1860 dashboard file
+  copy:
+    src: 1860_rev37.json
+    dest: dashboard.json
+
 - name: Start node-exporter container
   ansible.builtin.command:
     cmd: docker-compose up -d node-exporter
@@ -48,12 +58,21 @@
     cmd: docker-compose up -d alertmanager
   become: true
 
-- name: Add datasource to grafana for prometheus
-  community.grafana.grafana_datasource:
-    name: prometheus
-    url: "http://0.0.0.0:3000"
-    ds_type: "prometheus"
-    ds_url: http://prometheus:9090
-    grafana_user: "admin"
-    grafana_password: "admin"
+# - name: Add datasource to grafana for prometheus
+#   community.grafana.grafana_datasource:
+#     name: prometheus
+#     url: http://0.0.0.0:3000
+#     ds_type: prometheus
+#     ds_url: http://prometheus:9090
+#     grafana_user: admin
+#     grafana_password: admin
+#     state: present
+
+- name: Add 1860 dashboard to grafana
+  community.grafana.grafana_dashboard:
+    grafana_url: http://0.0.0.0:3000
+    grafana_user: admin
+    grafana_password: admin
+    path: dashboard.json
+    overwrite: true
     state: present
