@@ -1,67 +1,59 @@
 ---
-- name: Start node exporter container
-  docker_container:
-    name: node-exporter
-    image: prom/node-exporter:v1.2.2
-    restart: unless-stopped
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
-    command:
-      - "--path.procfs=/host/proc"
-      - "--path.rootfs=/rootfs"
-      - "--path.sysfs=/host/sys"
-      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
-    ports:
-      - "9100:9100"
-    networks:
-      - monitor
+- name: Install packages
+  apt:
+    name: "{{ packages }}"
+    state: latest
+
+- name: Create docker network
+  docker_network:
+    name: monitor
+
+- name: Copy docker-compose file
+  copy:
+    src: docker-compose.yml
+    dest: docker-compose.yml
+
+- name: Copy prometheus configuration file (with template)
+  template:
+    src: files/prometheus.yml.j2
+    dest: prometheus.yml
+
+- name: Copy alertmanager configuration file
+  copy:
+    src: alertmanager.yml
+    dest: alertmanager.yml
+
+- name: Copy prometheus rules file
+  copy:
+    src: rules.yml
+    dest: rules.yml
+
+- name: Start node-exporter container
+  ansible.builtin.command:
+    cmd: docker-compose up -d node-exporter
+  become: true
 
 - name: Start prometheus container
-  docker_container:
-    name: prometheus
-    image: prom/prometheus
-    restart: unless-stopped
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus-data:/prometheus
-      - ./rules.yml:/etc/prometheus/rules.yml
-    command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
-      - "--storage.tsdb.path=/prometheus"
-      - "--web.console.libraries=/etc/prometheus/console_libraries"
-      - "--web.console.templates=/etc/prometheus/consoles"
-      - "--storage.tsdb.retention.time=24h"
-      - "--web.enable-lifecycle"
-    ports:
-      - "9090:9090"
-    networks:
-      - monitor
+  ansible.builtin.command:
+    cmd: docker-compose up -d prometheus
+  become: true
 
 - name: Start grafana container
-  docker_container:
-    name: grafana
-    image: grafana/grafana
-    restart: unless-stopped
-    volumes:
-      - grafana-data:/var/lib/grafana
-      - ./grafana.ini:/etc/grafana/grafana.ini
-    ports:
-      - "3000:3000"
-    networks:
-      - monitor
+  ansible.builtin.command:
+    cmd: docker-compose up -d grafana
+  become: true
 
-- name: Start alert manager container
-  docker_container:
-    name: alter-manager
-    image: prom/alertmanager
-    restart: unless-stopped
-    volumes:
-      - "./alertmanager.yml:/config/alertmanager.yml"
-    command:
-      - "--config.file=/config/alertmanager.yml"
-    ports:
-      - "9093:9093"
-    networks:
-      - monitor
+- name: Start alertmanager container
+  ansible.builtin.command:
+    cmd: docker-compose up -d alertmanager
+  become: true
+
+- name: Add datasource to grafana for prometheus
+  community.grafana.grafana_datasource:
+    name: prometheus
+    url: "http://0.0.0.0:3000"
+    ds_type: "prometheus"
+    ds_url: http://prometheus:9090
+    grafana_user: "admin"
+    grafana_password: "admin"
+    state: present

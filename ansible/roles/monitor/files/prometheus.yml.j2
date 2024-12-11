@@ -4,22 +4,24 @@ global:
 scrape_configs:
   - job_name: "node"
     static_configs:
-      - targets: ["node-exporter:9100"]
+      - targets: ["{{ groups['monitoring'][0] }}:9100"]
 
   - job_name: "prometheus"
     static_configs:
-      - targets: ["0.0.0.0:9000"]
+      - targets: ["{{ groups['monitoring'][0] }}:9090"]
 
   - job_name: "flask"
     static_configs:
-      - targets: ["microblog:5000"]
+      - targets:
+          - "{{ groups['appserver1'][0] }}:8000"
+          - "{{ groups['appserver2'][0] }}:8000"
         labels:
           instance: flask
 
 alerting:
   alertmanagers:
     - static_configs:
-        - targets: ["alertmanager:9093"]
+        - targets: ["{{ groups['monitoring'][0] }}:9093"]
 
 rule_files:
   - "rules.yml"
