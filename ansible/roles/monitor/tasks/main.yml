@@ -43,6 +43,11 @@
     src: 14900_rev2.json
     dest: nginx-dashboard.json
 
+- name: Copy flask dashboard file
+  copy:
+    src: flaskdash.json
+    dest: flaskdash.json
+
 - name: Start node-exporter container
   ansible.builtin.command:
     cmd: docker-compose up -d node-exporter
@@ -93,5 +98,14 @@
     grafana_user: admin
     grafana_password: admin
     path: nginx-dashboard.json
+    overwrite: true
+    state: present
+
+- name: Add flask dashboard to grafana
+  community.grafana.grafana_dashboard:
+    grafana_url: http://0.0.0.0:3000
+    grafana_user: admin
+    grafana_password: admin
+    path: flaskdash.json
     overwrite: true
     state: present
