@@ -16,7 +16,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleasd] - 2024-12-05
+## [11.4.2] - 2024-12-05
+
+### Added
+
+- Alerts view in Flask
+- Alert in prometheus from flas
+
+## [11.4.1] - 2024-12-05
+
+### Fixed
+
+- Problem with docker container
+
+## [11.4.0] - 2024-12-05
 
 ### Added
 
