@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [11.4.4] - 2024-12-05
 
+### Added
+
+- Grafana ini file in docker container
+
 ### Fix
 
 - Alerts view in Flask
