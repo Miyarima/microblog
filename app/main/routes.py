@@ -10,8 +10,6 @@ from app.main.forms import EditProfileForm, PostForm
 from app.models import User, Post
 from app.main import bp
 
-alert_button = True
-
 @bp.before_request
 def before_request():
     """
@@ -137,31 +135,11 @@ def alert():
     """
     Page for starting alerts
     """
-    return render_template('alert.html', active=False)
+    return render_template('alert.html')
 
 @bp.route('/alert-check')
 def alarmcheck():
     """
     Page for sending internal server error
     """
-    if alert_button:
-        return Response("Internal Server Error", status=500)
-    return render_template('alert.html', active=False)
-
-@bp.route("/start-alert", methods=["POST"])
-def start_alert():
-    """
-    Actives alert in prometheus
-    """
-    global alert_button
-    alert_button = False
-    return render_template('alert.html', active=True)
-
-@bp.route("/reset-alert", methods=["POST"])
-def reset_alert():
-    """
-    Deactives alert in prometheus
-    """
-    global alert_button
-    alert_button = True
-    return render_template('alert.html', active=False)
+    return Response("Internal Server Error", status=500)

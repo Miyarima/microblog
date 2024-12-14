@@ -8,7 +8,7 @@ groups:
   - name: Test alarm, create internal server error
     rules:
       - alert: Test alarm, create internal server error
-        expr: flask_http_request_duration_seconds_count{instance="flask", method="GET", path="/alarm-check", status="500"} > 0
+        expr: (flask_http_request_duration_seconds_count{instance="flask", method="GET", path="/alert-check", status="500"} % 2) == 1
         for: 10s
         labels:
           severity: critical
