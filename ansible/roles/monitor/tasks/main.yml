@@ -53,15 +53,20 @@
     cmd: docker-compose up -d node-exporter
   become: true
 
+- name: Stop prometheus container
+  ansible.builtin.command:
+    cmd: docker-compose stop prometheus
+  become: true
+
 - name: Start prometheus container
   ansible.builtin.command:
     cmd: docker-compose up -d prometheus
   become: true
 
-- name: Stop grafana container
-  ansible.builtin.command:
-    cmd: docker-compose stop grafana
-  become: true
+# - name: Stop grafana container
+#   ansible.builtin.command:
+#     cmd: docker-compose stop grafana
+#   become: true
 
 - name: Start grafana container
   ansible.builtin.command:
