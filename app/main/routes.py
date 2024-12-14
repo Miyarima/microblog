@@ -133,13 +133,20 @@ def version():
     app_version = os.environ.get("VERSION") or "No version found"
     return render_template('version.html', version=app_version)
 
+@bp.route('/alert')
+def alert():
+    """
+    Page for starting alerts
+    """
+    return render_template('alert.html', active=False)
+
 @bp.route("/start-alert", methods=["POST"])
 def start_alert():
     """
     Actives alert in prometheus
     """
     alert_button_gauge.set(1)
-    return render_template('version.html', active=True)
+    return render_template('alert.html', active=True)
 
 @bp.route("/reset-alert", methods=["POST"])
 def reset_alert():
@@ -147,4 +154,4 @@ def reset_alert():
     Deactives alert in prometheus
     """
     alert_button_gauge.set(0)
-    return render_template('version.html', active=False)
+    return render_template('alert.html', active=False)
