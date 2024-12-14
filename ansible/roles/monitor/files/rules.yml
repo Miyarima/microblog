@@ -5,10 +5,10 @@ groups:
         expr: flask_http_request_total{method="get", status="200"} > 20 and flask_http_request_total{method="get", status="200"} < 25
         for: 10s
 
-  - name: button-alerts
+  - name: Test alarm, create internal server error
     rules:
-      - alert: ButtonActiveAlert
-        expr: alert_button_gauge == 1
-        for: 0s
+      - alert: Test alarm, create internal server error
+        expr: flask_http_request_duration_seconds_count{instance="flask", method="GET", path="/alarm-check", status="500"} > 0
+        for: 10s
         labels:
           severity: critical

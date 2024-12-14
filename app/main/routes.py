@@ -3,15 +3,14 @@ Contains routes for main purpose of app
 """
 import os
 from datetime import datetime
-from flask import render_template, flash, redirect, url_for, request, current_app
+from flask import render_template, flash, redirect, url_for, request, current_app, Response
 from flask_login import current_user, login_required
-from prometheus_client import Gauge
 from app import db
 from app.main.forms import EditProfileForm, PostForm
 from app.models import User, Post
 from app.main import bp
 
-alert_button_gauge = Gauge("alert_button_gauge", "State of the alert button (1 = active, 0 = inactive)")
+alert_button = True
 
 @bp.before_request
 def before_request():
@@ -140,12 +139,18 @@ def alert():
     """
     return render_template('alert.html', active=False)
 
+@bp.route('/alert-check')
+def alarmcheck():
+    if alert_button:
+        return Response("Internal Server Error", status=500)
+    return render_template('alert.html', active=False)
+
 @bp.route("/start-alert", methods=["POST"])
 def start_alert():
     """
     Actives alert in prometheus
     """
-    alert_button_gauge.set(1)
+    alert_button = False
     return render_template('alert.html', active=True)
 
 @bp.route("/reset-alert", methods=["POST"])
@@ -153,5 +158,5 @@ def reset_alert():
     """
     Deactives alert in prometheus
     """
-    alert_button_gauge.set(0)
+    alert_button = True
     return render_template('alert.html', active=False)

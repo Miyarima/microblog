@@ -22,6 +22,11 @@
       debug:
         msg: "The latest version is {{ version }}"
 
+    - name: Remove existing microblog image
+      shell: |
+        docker rmi -f miyarima/microblog:{{ version }}-prod
+      ignore_errors: true
+
     - name: Pull the latest version of microblog
       docker_image:
         name: "miyarima/microblog:{{ version }}-prod"

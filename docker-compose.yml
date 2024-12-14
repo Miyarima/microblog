@@ -22,7 +22,7 @@ services:
 
   microblog:
     container_name: microblog
-    image: miyarima/microblog:11.4.0-prod
+    image: miyarima/microblog:11.4.2-prod
     depends_on:
       db:
         condition: service_healthy
