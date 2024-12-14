@@ -16,6 +16,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [11.4.4] - 2024-12-05
+
+### Fix
+
+- Alerts view in Flask
+
+## [11.4.3] - 2024-12-05
+
+### Fix
+
+- Alerts view in Flask
+- Alerts acctual works
+
 ## [11.4.2] - 2024-12-05
 
 ### Added

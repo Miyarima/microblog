@@ -4,7 +4,5 @@
 <p>Press button TWICE to turn on alert on second server</p>
 <p>Press button THRICE to turn off alert first server</p>
 <p>Press button FOUR TIMES to turn off alert second server</p>
-<form action="/alert-check" method="post">
-  <button type="submit">Start alert</button>
-</form>
+<a href="{{ url_for('main.alarmcheck') }}">Explore</a>
 {% endblock %}
