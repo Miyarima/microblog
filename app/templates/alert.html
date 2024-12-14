@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block app_content %}
+<h1>Test alert!</h1>
+{% if active %}
+<p>Alert: is active!</p>
+{% else %}
+<p>Alert: is off!</p>
+{% endif %}
+<form action="/start-alert" method="post">
+  <button type="submit">Start alert</button>
+</form>
+<form action="/reset-alert" method="post">
+  <button type="submit">Stop alert</button>
+</form>
+{% endblock %}

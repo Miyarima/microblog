@@ -4,3 +4,11 @@ groups:
       - alert: Between20And25
         expr: flask_http_request_total{method="get", status="200"} > 20 and flask_http_request_total{method="get", status="200"} < 25
         for: 10s
+
+  - name: button-alerts
+    rules:
+      - alert: ButtonActiveAlert
+        expr: alert_button_gauge == 1
+        for: 0s
+        labels:
+          severity: critical

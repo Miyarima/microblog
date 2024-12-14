@@ -11,21 +11,35 @@ http {
     # Notice that the upstream name and the proxy_pass need to match.
 
     server {
-       listen 80;
-       server_name  {{ domain_name }} www.{{ domain_name }};
-       return 301 https://$server_name$request_uri;
+        listen 80;
+        server_name  {{ domain_name }} www.{{ domain_name }};
+        return 301 https://$server_name$request_uri;
+    
+        #location / {
+        #   proxy_pass http://app-hosts;
+        #}
     }
     server {
-       listen 443 ssl;
-       server_name  {{ domain_name }} www.{{ domain_name }};
-       add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
+        listen 443 ssl;
+        server_name  {{ domain_name }} www.{{ domain_name }};
+        
+        ssl_certificate /etc/letsencrypt/live/{{ domain_name }}/cert.pem;
+        ssl_certificate_key /etc/letsencrypt/live/{{ domain_name }}/privkey.pem;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 
-       ssl_certificate /etc/letsencrypt/live/{{ domain_name }}/cert.pem;
-       ssl_certificate_key /etc/letsencrypt/live/{{ domain_name }}/privkey.pem;
-       ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-
-       location / {
-          proxy_pass http://app-hosts;
-       }
+        location / {
+            proxy_pass http://app-hosts;
+        }
+        location /metrics {
+            stub_status on;
+        }
+        location /grafana/ {
+            proxy_pass http://{{ groups['monitoring'][0] }}:3000/;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-Host $host;
+            proxy_set_header X-Forwarded-Server $host;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
     }
 }

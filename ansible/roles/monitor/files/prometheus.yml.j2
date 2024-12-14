@@ -17,6 +17,11 @@ scrape_configs:
           - "{{ groups['appserver2'][0] }}:8000"
         labels:
           instance: flask
+  
+  - job_name: "nginx"
+    metrics_path: /prometheus
+    static_configs:
+      - targets: ["{{ groups['loadbalancer'][0] }}:9113"]
 
 alerting:
   alertmanagers:

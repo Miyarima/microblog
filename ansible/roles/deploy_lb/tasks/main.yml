@@ -51,3 +51,33 @@
     src: /etc/nginx/sites-available/load-balancer.conf
     dest: /etc/nginx/sites-enabled/load-balancer.conf
     state: link
+
+- name: Installing Docker.io
+  apt:
+    name: docker.io
+    state: latest
+
+- name: Installing pip3
+  apt:
+    name: python3-pip
+    state: present
+
+- name: Installing Docker with pip3
+  pip:
+    name: docker
+    state: present
+
+- name: Start nginx exporter container
+  docker_container:
+    name: nginx-exporter
+    image: nginx/nginx-prometheus-exporter:0.4.2
+    env:
+      nginx_scrape_uri: "https://{{ domain_name }}/metrics"
+      nginx_retries: "10"
+      nginx_ssl_verify: "false"
+      web_telemetry_path: "/prometheus"
+    state: started
+    restart_policy: always
+    ports:
+      - "9113:9113"
+    command: "--nginx.scrape-uri=http://{{ domain_name }}/metrics --nginx.retries=5 --nginx.ssl-verify=false --web.telemetry-path=/prometheus"
