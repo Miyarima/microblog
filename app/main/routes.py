@@ -141,6 +141,9 @@ def alert():
 
 @bp.route('/alert-check')
 def alarmcheck():
+    """
+    Page for sending internal server error
+    """
     if alert_button:
         return Response("Internal Server Error", status=500)
     return render_template('alert.html', active=False)
@@ -150,6 +153,7 @@ def start_alert():
     """
     Actives alert in prometheus
     """
+    global alert_button
     alert_button = False
     return render_template('alert.html', active=True)
 
@@ -158,5 +162,6 @@ def reset_alert():
     """
     Deactives alert in prometheus
     """
+    global alert_button
     alert_button = True
     return render_template('alert.html', active=False)
