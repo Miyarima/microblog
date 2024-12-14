@@ -135,10 +135,16 @@ def version():
 
 @bp.route("/start-alert", methods=["POST"])
 def start_alert():
+    """
+    Actives alert in prometheus
+    """
     alert_button_gauge.set(1)
     return render_template('version.html', active=True)
 
 @bp.route("/reset-alert", methods=["POST"])
 def reset_alert():
+    """
+    Deactives alert in prometheus
+    """
     alert_button_gauge.set(0)
     return render_template('version.html', active=False)
