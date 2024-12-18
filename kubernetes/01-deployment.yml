@@ -17,6 +17,11 @@ spec:
         - image: miyarima/microblog:11.4.4-prod
           imagePullPolicy: Always
           name: microblog
+          resources:
+            requests:
+              cpu: 250m
+            limits:
+              cpu: 500m
           ports:
             - containerPort: 5000
           env:
